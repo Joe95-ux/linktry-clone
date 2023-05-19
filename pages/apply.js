@@ -1,22 +1,72 @@
-import React from 'react'
-import styles from '../styles/apply.module.css'
+import React, { useState } from 'react';
+import Footer from '@/components/Footer';
+import styles from '../styles/apply.module.css';
+import {toast} from 'react-toastify';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Apply = () => {
+  const router = useRouter();
+  const [handle, setHandle] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [category, setCategory] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleCategoryChange = (e) =>{
+    setCategory(e.target.value);
+  }
+
+  const handleRegister = (e)=>{
+    e.preventDefault();
+    if(!category) return toast.error('Add a category');
+    toast('You are registered successfully');
+  }
   return (
     <>
-      <section className=''>
-        <div  className={styles.background + " main min-h-screen flex justify-center items-center"}>
-          <div className="content form">
-              <h1 className="text-2xl font-bold text-white text-center pb-5">Apply for NewsLetter</h1>
-              <div className="">
-                  <form className="">
-                      <input className="border-1 border-gray-100 bg-white text-black shadow-lg p-2 rounded-l-lg focus:outline-none autofocus" type="email" placeholder='Enter your email' required/>
-                      <input className="bg-indigo-600 text-white p-2 rounded-r-lg" type="submit" value="Subscribe" />
-                  </form>
-              </div>
+      <section className={styles.background + " min-h-screen flex justify-center items-center"}>
+        <div className='main'>
+          <div className='content bg-white border-2 px-4 py-8 rounded-2xl shadow-lg'>
+            <h1 className="text-2xl font-bold text-center">Join the top 1% creators</h1>
+            <p className='text-center'>Create Linktree for your brand</p>
+            <p className='text-center py-5 font-bold text-gray-500'>Start building your Hub</p>
+            <form onSubmit={handleRegister} className='flex flex-col gap-4 text-lg mt-5'>
+                <span className='flex flex-row shadow-md border-2 px-3 py-2 rounded-md focus:outline-none'>
+                  <img className='w-6 mr-2' src="/svg/ig.svg" alt="" />
+                  <input value={handle} onChange={e=>setHandle(e.target.value)} className='focus:outline-none' type="text" placeholder="Social Handle" required/>
+                </span>
+                <span className='flex flex-row shadow-md border-2 px-3 py-2 rounded-md focus:outline-none'>
+                   <img className='w-6 mr-2' src="/svg/email.svg" alt="" />
+                  <input value={email} onChange={e=>setEmail(e.target.value)} className='focus:outline-none' type="email" placeholder="Enter your email" required/>
+                </span>
+                <span className='flex flex-row shadow-md border-2 px-3 py-2 rounded-md focus:outline-none'>
+                  <img className='w-6 mr-2' src="/svg/password.svg" alt="" />
+                  <input value={password} onChange={e=>setPassword(e.target.value)} className='focus:outline-none' type="password" placeholder='Set a password' required/>
+                </span>
+                    
+              
+                <h5 className='text-sm text-center text-indigo-400'>Account Type:</h5>
+                <span className="flex">
+                  <label className="flex flex-row mr-3">
+                    <input type="checkbox" className="" value="Creator" checked={category==='Creator'} onChange={handleCategoryChange} />
+                    <p className='pl-2'>Creator</p>
+                  </label>
+                  <label className="flex flex-row mr-3">
+                    <input type="checkbox" className="" value="Agency" checked={category==='Agency'} onChange={handleCategoryChange} />
+                    <p className='pl-2'>Agency</p>
+                  </label>
+                  <label className="flex flex-row mr-3">
+                    <input type="checkbox" className="" value="Brand" checked={category==='Brand'} onChange={handleCategoryChange} />
+                    <p className='pl-2'>Brand</p>
+                  </label>
+                </span>
+                <input className='bg-indigo-600 text-white py-2 rounded-lg cursor-pointer' type="submit" value="Apply" />
+            </form>
           </div>
+          <h4 className='text-center text-white pt-3'>Already have an account? <Link className='font-bold text-red-400' href="/login">Login</Link></h4>
         </div>
       </section>
+      <Footer/>
     </>
   )
 }
