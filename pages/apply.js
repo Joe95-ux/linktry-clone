@@ -20,7 +20,23 @@ const Apply = () => {
   const handleRegister = (e)=>{
     e.preventDefault();
     if(!category) return toast.error('Add a category');
-    toast('You are registered successfully');
+    // backend part
+    fetch('http://localhost:4000/api/register', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        handle,
+        email,
+        password,
+        category
+      })
+    }).then(res => res.json())
+    .then(data => {
+      if(data.message === 'Success'){toast('You are registered successfully');}
+    }).catch(err => {toast(err.message)});
+    
   }
   return (
     <>
