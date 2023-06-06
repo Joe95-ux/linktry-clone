@@ -34,8 +34,8 @@ const Apply = () => {
       })
     }).then(res => res.json())
     .then(data => {
-      if(data.message === 'Success'){toast('You are registered successfully');}
-    }).catch(err => {toast(err.message)});
+      if(data.status === 'success'){toast('You are registered successfully');}
+    }).catch(err => {toast.error('Try a different username')});
     
   }
   return (
