@@ -34,7 +34,12 @@ const Apply = () => {
       })
     }).then(res => res.json())
     .then(data => {
-      if(data.status === 'success'){toast('You are registered successfully');}
+      if(data.status === 'success'){
+        toast('You are registered successfully');
+        localStorage.setItem('linktreeToken', data.token);
+        setSubmitted(true);
+        router.push('/login');
+      }
     }).catch(err => {toast.error('Try a different username')});
     
   }

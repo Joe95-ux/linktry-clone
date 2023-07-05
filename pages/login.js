@@ -14,8 +14,26 @@ const Apply = () => {
     const handleLogin = (e)=>{
         e.preventDefault();
         // backend here
-        e.preventDefault();
-        toast('You are logged in successfully!');
+        fetch('http://localhost:4000/api/login', {
+            method: 'POST',
+            headers: {
+            'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+            email,
+            password,       
+            })
+        }).then(res => res.json())
+          .then(data => {
+            if(data.status === 'success'){
+            toast('You are logged in successfully');
+            localStorage.setItem('linktreeToken', data.token);
+            router.push('/dashboard');
+          }
+            if(data.status === 'not found'){
+                toast.error('User not found');
+            }
+        }).catch(err => {toast.error('Try a different username')});
     }
     return (
         <>
