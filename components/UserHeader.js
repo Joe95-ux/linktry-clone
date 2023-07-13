@@ -1,28 +1,29 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import UserContext from '../context/userContext';
+// import UserContext from '../context/userContext';
 
-const UserHeader = () => {
-    // const {name, role, avatar, handle, links} = data;
+const UserHeader = ({data}) => {
+    const {name, role, avatar, handle, links} = data;
+    const [userData, setUserData] = useState({});
     const router = useRouter();
     const handleLogout = ()=>{
         localStorage.removeItem('LinkTreeToken');
         router.push('/login');
     }
 
-    const {userData, setUserData} = useContext(UserContext);
-    const {role, avatar, handle} = userData;
+    // const {userData, setUserData} = useContext(UserContext);
+    // const {role, avatar, handle} = userData;
 
     useEffect(()=>{
-        if(!localStorage.getItem('LinkTreeToken')) return window.location.href = "/login";
-        fetch('http://localhost:8080/data/dashboard', {
+        if(!localStorage.getItem('linktreeToken')) return window.location.href = "/login";
+        fetch('http://localhost:4000/data/dashboard', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            tokenMail: localStorage.getItem('LinkTreeToken')
+            tokenMail: localStorage.getItem('linktreeToken')
         })
         }).then(res=>res.json())
         .then(data=>{
@@ -43,13 +44,13 @@ const UserHeader = () => {
             <div className="flex flex-col md:flex-row p-5">
                 <Link href="/edit/links">
                 <button className='inline-flex w-full md:w-auto px-5 py-3 text-purple-500 font-bold hover:text-purple-700 hover:bg-purple-100 rounded-md mb-3 border-2 border-purple-500'>
-                    <img src="/svg/url.svg" className='w-6 mr-3'/>
+                    <img src="/svg/link.svg" className='w-6 mr-3'/>
                     Edit Links
                 </button>
                 </Link>
                 <Link href="/edit/profile">
                 <button className='inline-flex w-full md:w-auto px-5 py-3 text-red-500 font-bold hover:text-red-700 hover:bg-red-100 rounded-md mb-3 border-2 border-red-500 md:ml-4'>
-                    <img src="/svg/user.svg" className='w-6 mr-3'/>
+                    <img src="/svg/profile.svg" className='w-6 mr-3'/>
                     Edit profile
                 </button>
                 </Link>
