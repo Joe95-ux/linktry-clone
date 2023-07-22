@@ -1,8 +1,20 @@
-import React from 'react'
+import React from 'react';
+import Link from 'next/link';
 
-const LinkTreeCard = () => {
+
+const LinkTreeCard = ({title, url, image}) => {
   return (
-    <div>LinkTreeCard</div>
+    <>
+    <span>
+        <Link className="" href={url}>
+            <img src={image} alt=""/>
+            <h4>{title}</h4>
+
+        </Link>
+    </span>
+
+
+    </>
   )
 }
 
